@@ -137,8 +137,9 @@ SET NOCOUNT ON;
 	WHERE NPA NOT IN (SELECT AreaCd FROM @AreaCd_Complete)
 	GROUP BY NPA;
 
---	select * from @Area order by Cd;
---  RETURN -1;
+	DELETE [DNC].[WirelessPhoneBlock_BuildLog]
+	WHERE RunDt = @RunDt
+	  AND AreaCd IN (SELECT Cd FROM @Area);
 
 	DECLARE AreaCd_Cursor CURSOR FOR
 	SELECT Cd, Cnt
@@ -154,7 +155,7 @@ SET NOCOUNT ON;
 		
 		SET @AreaCnt += 1;
 
-		RAISEERROR (@AreaCd, 10, 1) WITH NOWAIT;	-- output to result window the AreaCd being worked on.
+ 		RAISERROR (@AreaCd, 10, 1) WITH NOWAIT;	-- output to result window the AreaCd being worked on.
 
 		SET @AreaCdCnt = 0;
 		SET @PrefixCnt = 0;
