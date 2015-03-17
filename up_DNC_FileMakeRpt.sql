@@ -13,7 +13,7 @@ DECLARE @RunDt smalldatetime = (SELECT MAX(RunDt) FROM [DNC].[WirelessPhoneBlock
 IF @UsrRunDt IS NOT NULL
 	SET @RunDt = @UsrRunDt;
 
-SELECT	count(*) AreaCodes, sum(Cnt) as TotalCnt, sum(PrefixCnt) TotalPrefixCnt,
+SELECT	convert(char(10), @RunDt, 101) RunDt, count(*) AreaCodes, sum(Cnt) as TotalCnt, sum(PrefixCnt) TotalPrefixCnt,
 		sum(Added_LandlineToWirelessCnt) as TotalAdded_LandlineToWirelessCnt, sum(Removed_WirelessToLandlineCnt) as TotalRemoved_WirelessToLandlineCnt,
 		convert(numeric(5,2), convert(float,sum(datediff(mi, StartTm, EndTm)))/60) TotalHours
 FROM [DNC].[WirelessPhoneBlock_BuildLog]
